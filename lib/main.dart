@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'input.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -81,21 +83,7 @@ class _MyAppState extends State<MyApp> {
               margin: EdgeInsets.only(left: 10, right: 10),
               child: Column(
                 children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: new BorderRadius.circular(
-                          10.0), // to custom border radius
-                    ),
-                    child: Container(
-                        padding: EdgeInsets.only(left: 15, right: 15, top: 2),
-                        child: TextFormField(
-                            controller: etInput,
-                            decoration: InputDecoration(
-                              hintText: "Insert your activity today",
-                              border: InputBorder.none,
-                            ))),
-                  ),
+                  Input(etInput: etInput),
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
