@@ -12,6 +12,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  TextEditingController etInput = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,12 +47,20 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Text(
-                      "To Do List",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: new BorderRadius.circular(
+                          10.0), // to custom border radius
                     ),
-                  ), //Show List Item
+                    child: Container(
+                        padding: EdgeInsets.only(left: 15, right: 15, top: 2),
+                        child: TextFormField(
+                            controller: etInput,
+                            decoration: InputDecoration(
+                              hintText: "Insert your activity today",
+                              border: InputBorder.none,
+                            ))),
+                  )
                 ],
               ),
             ),
