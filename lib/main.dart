@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'dropdown.dart';
 import 'input.dart';
 
 void main() {
@@ -91,24 +92,10 @@ class _MyAppState extends State<MyApp> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      // to custom border radius
-                    ),
-                    child: DropdownButton<String>(
-                      items: listItem.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      value: _newValue,
-                      onChanged: _dropdownOnChanged,
-                    ),
-                  ),
+                  DropDown(
+                      listItem: listItem,
+                      newValue: _newValue,
+                      dropdownOnChanged: _dropdownOnChanged),
                   Container(
                       alignment: Alignment.bottomLeft,
                       margin: EdgeInsets.only(top: 10),
