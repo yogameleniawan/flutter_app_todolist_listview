@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   void _removeItemToList(int idx) {
     setState(() {
       listViewItem.removeAt(
-          idx); // remove item from list with passing index to parameter
+          idx); // remove item from list with passing index value to parameter
     });
   }
 
@@ -86,8 +86,9 @@ class _MyAppState extends State<MyApp> {
               margin: EdgeInsets.only(left: 10, right: 10),
               child: Column(
                 children: <Widget>[
-                  Input(etInput: etInput),
+                  Input(etInput: etInput), // Input widget
                   Container(
+                    // Activity Priority Text
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
                       "Activity Priority",
@@ -95,11 +96,13 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                   DropDown(
+                      // Dropdown widget
                       listItem: listItem,
                       newValue: _newValue,
                       dropdownOnChanged: _dropdownOnChanged),
-                  DateInfo(selectedDate: selectedDate),
+                  DateInfo(selectedDate: selectedDate), // Date info widget
                   ListItem(
+                      // List item widget
                       listViewItem: listViewItem,
                       selectedDate: selectedDate,
                       removeItemToList: _removeItemToList),

@@ -20,8 +20,7 @@ class ListItem extends StatelessWidget {
       child: Text("Yes"),
       onPressed: () {
         removeItemToList(index);
-        Navigator.of(context)
-            .pop(); //Use build method instead of passing it as tap listener. (){} -> Passing data
+        Navigator.of(context).pop(); // close dialog
       },
     );
     Widget noButton = FlatButton(
@@ -82,6 +81,9 @@ class ListItem extends StatelessWidget {
                       ),
                       Text(
                         DateFormat('EEE, MMM d').format(selectedDate),
+                        // format EEE which mean 3 character of the day (Sunday -> Sun, Monday -> Mon ...)
+                        // MMM which mean 3 character of the month (January -> Jan, February -> Feb ...)
+                        // d is date (1 - 31)
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           color: Colors.black,
@@ -93,7 +95,14 @@ class ListItem extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.check_box),
                     onPressed: () {
-                      showAlertDialog(context, idx);
+                      showAlertDialog(context,
+                          idx); // call showAlertDialog and passing 2 parameter context and idx
+                      // idx is value of the index of the list when the button on pressed,
+                      // if button press on first list, so the value idx is [0]
+                      // if button press on second list, so the value idx is [1]
+                      // etc..
+                      // so we can remove item from list by the value of idx
+                      // which mean we can choose the item from the list and then we can remove the item
                     },
                   ),
                 ],
