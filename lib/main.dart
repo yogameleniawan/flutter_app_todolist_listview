@@ -16,8 +16,23 @@ class _MyAppState extends State<MyApp> {
   TextEditingController etInput = new TextEditingController();
   DateTime selectedDate = DateTime.now(); // get date time now
 
+  String value = "";
   var listItem = ["High", "Low"];
   String _newValue = "High";
+  List<String> listViewItem = [];
+
+  void addItemToList() {
+    setState(() {
+      value = etInput.text;
+      if (_newValue == "High") {
+        listViewItem.insert(0, value);
+      } else if (_newValue == "Low") {
+        listViewItem.add(value);
+      } // put etInput text and assign to string value
+      // input value to list item with iteration index 0 - n
+      etInput.clear(); // clear value in input from when click button
+    });
+  }
 
   void _dropdownOnChanged(String changeValue) {
     setState(() {
@@ -49,7 +64,7 @@ class _MyAppState extends State<MyApp> {
                 IconButton(
                   icon: Icon(Icons.add_box),
                   onPressed:
-                      () {}, // Call function addItemToList to Add item to list
+                      addItemToList, // Call function addItemToList to Add item to list
                 ),
               ],
             ),
@@ -101,6 +116,8 @@ class _MyAppState extends State<MyApp> {
                       alignment: Alignment.bottomLeft,
                       margin: EdgeInsets.only(top: 10),
                       child: Column(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start, // alignment start
                         children: <Widget>[
                           Text(
                             "My Day",
@@ -120,6 +137,53 @@ class _MyAppState extends State<MyApp> {
                           ),
                         ],
                       )),
+                  Expanded(
+                    child: ListView(
+                      children: listViewItem.map((String value) {
+                        return Container(
+                            padding:
+                                EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                            margin: EdgeInsets.only(top: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: new BorderRadius.circular(
+                                  10.0), // Custom border radius
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment
+                                      .stretch, // to position column text into left and right side
+                                  children: <Widget>[
+                                    Text(
+                                      value,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                    Text(
+                                      DateFormat('EEE, MMM d')
+                                          .format(selectedDate),
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                                IconButton(
+                                  icon: Icon(Icons.check_box),
+                                  onPressed: () {},
+                                ),
+                              ],
+                            ));
+                      }).toList(),
+                    ),
+                  ),
                 ],
               ),
             ),
