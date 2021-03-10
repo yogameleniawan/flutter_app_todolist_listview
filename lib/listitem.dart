@@ -13,6 +13,42 @@ class ListItem extends StatelessWidget {
   final DateTime selectedDate;
   final Function removeItemToList;
 
+  void showAlertDialog(BuildContext context, int index) {
+    // set up the button
+    Widget okButton = FlatButton(
+      // initialized okButton for Ok
+      child: Text("Yes"),
+      onPressed: () {
+        removeItemToList(index);
+        Navigator.of(context)
+            .pop(); //Use build method instead of passing it as tap listener. (){} -> Passing data
+      },
+    );
+    Widget noButton = FlatButton(
+      // initialized noButton for No
+      child: Text("No"),
+      onPressed: () {
+        Navigator.of(context).pop(); // close dialog
+      },
+    );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Complete Acitivty"),
+      content: Text("Do you have finished your activity?"),
+      actions: [
+        okButton, // action button ok
+        noButton, // action button no
+      ],
+    );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -57,7 +93,7 @@ class ListItem extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.check_box),
                     onPressed: () {
-                      removeItemToList(idx);
+                      showAlertDialog(context, idx);
                     },
                   ),
                 ],
