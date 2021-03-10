@@ -25,8 +25,10 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       value = etInput.text;
       if (_newValue == "High") {
+        // insert into index 0 which is item get top position of the list
         listViewItem.insert(0, value);
       } else if (_newValue == "Low") {
+        // insert into index n which is item get bottom position of the list
         listViewItem.add(value);
       } // put etInput text and assign to string value
       // input value to list item with iteration index 0 - n
