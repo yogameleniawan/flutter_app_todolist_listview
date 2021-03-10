@@ -42,6 +42,13 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void removeItemToList(int idx) {
+    setState(() {
+      listViewItem.removeAt(
+          idx); // remove item from list with passing index to parameter
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -142,6 +149,9 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: ListView(
                       children: listViewItem.map((String value) {
+                        var idx = listViewItem.indexOf(
+                            value); // get index value, the index value can passing to remove item list parameter
+                        // to get specific index
                         return Container(
                             padding:
                                 EdgeInsets.only(left: 10, top: 10, bottom: 10),
@@ -179,7 +189,9 @@ class _MyAppState extends State<MyApp> {
                                 )),
                                 IconButton(
                                   icon: Icon(Icons.check_box),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    removeItemToList(idx);
+                                  },
                                 ),
                               ],
                             ));
