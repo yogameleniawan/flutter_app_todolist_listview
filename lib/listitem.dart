@@ -5,6 +5,7 @@ class ListItem extends StatelessWidget {
   const ListItem({
     Key key,
     @required this.listViewItem,
+    @required this.showcontent,
     @required this.selectedDate,
     @required this.removeItemToList,
   }) : super(key: key);
@@ -12,41 +13,7 @@ class ListItem extends StatelessWidget {
   final List<String> listViewItem;
   final DateTime selectedDate;
   final Function removeItemToList;
-
-  void showAlertDialog(BuildContext context, int index) {
-    // set up the button
-    Widget okButton = FlatButton(
-      // initialized okButton for Ok
-      child: Text("Yes"),
-      onPressed: () {
-        removeItemToList(index);
-        Navigator.of(context).pop(); // close dialog
-      },
-    );
-    Widget noButton = FlatButton(
-      // initialized noButton for No
-      child: Text("No"),
-      onPressed: () {
-        Navigator.of(context).pop(); // close dialog
-      },
-    );
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text("Complete Acitivty"),
-      content: Text("Do you have finished your activity?"),
-      actions: [
-        okButton, // action button ok
-        noButton, // action button no
-      ],
-    );
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+  final Function showcontent;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +62,7 @@ class ListItem extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.check_box),
                     onPressed: () {
-                      showAlertDialog(context,
+                      showcontent(
                           idx); // call showAlertDialog and passing 2 parameter context and idx
                       // idx is value of the index of the list when the button on pressed,
                       // if button press on first list, so the value idx is [0]

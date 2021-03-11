@@ -21,6 +21,7 @@ class Input extends StatelessWidget {
           child: TextFormField(
               controller: etInput,
               decoration: InputDecoration(
+                labelText: "Your Activity Today",
                 hintText: "Insert your activity today",
                 border: InputBorder.none,
               ))),

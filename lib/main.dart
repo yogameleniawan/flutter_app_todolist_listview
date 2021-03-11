@@ -2,17 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'dateinfo.dart';
+import 'detail.dart';
 import 'dropdown.dart';
 import 'input.dart';
 import 'listitem.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
+}
+
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var routes = <String, WidgetBuilder>{
+      DetailList.routeName: (BuildContext context) => new DetailList(),
+      MyApp.routeName: (BuildContext context) => new MyApp(),
+    }; // Declaration route
+    return new MaterialApp(
+      title: 'Flutter Demo',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: new MyApp(),
+      routes: routes, //initialized routes
+    );
+  }
 }
 
 class MyApp extends StatefulWidget {
   MyApp({Key key}) : super(key: key);
-
+  static const String routeName = "/MyApp";
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -41,6 +60,40 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _showcontent(int index) {
+    showDialog(
+      context: context, barrierDismissible: false, // user must tap button!
+
+      builder: (BuildContext context) {
+        return new AlertDialog(
+          title: new Text('Complete Acitivty'),
+          content: new SingleChildScrollView(
+            child: new ListBody(
+              children: [
+                new Text('Do you have finished your activity?'),
+              ],
+            ),
+          ),
+          actions: [
+            new FlatButton(
+              child: new Text('YES'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _removeItemToList(index);
+              },
+            ),
+            new FlatButton(
+              child: new Text('NO'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _dropdownOnChanged(String changeValue) {
     setState(() {
       _newValue = changeValue;
@@ -52,6 +105,10 @@ class _MyAppState extends State<MyApp> {
       listViewItem.removeAt(
           idx); // remove item from list with passing index value to parameter
     });
+  }
+
+  void navigateToDetail() {
+    Navigator.pushNamed(context, DetailList.routeName); //push to routes
   }
 
   @override
@@ -103,6 +160,7 @@ class _MyAppState extends State<MyApp> {
                   DateInfo(selectedDate: selectedDate), // Date info widget
                   ListItem(
                       // List item widget
+                      showcontent: _showcontent,
                       listViewItem: listViewItem,
                       selectedDate: selectedDate,
                       removeItemToList: _removeItemToList),
