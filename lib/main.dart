@@ -54,10 +54,10 @@ class _MyAppState extends State<MyApp> {
       value = etInput.text;
       if (_newValue == "High") {
         // insert into index 0 which is item get top position of the list
-        listViewItem.insert(0, widget.namadetail);
+        listViewItem.insert(0, value);
       } else if (_newValue == "Low") {
         // insert into index n which is item get bottom position of the list
-        listViewItem.add(widget.namadetail);
+        listViewItem.add(value);
       } // put etInput text and assign to string value
       // input value to list item with iteration index 0 - n
       etInput.clear(); // clear value in input from when click button
@@ -111,7 +111,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void navigateToDetail() {
+  void _navigateToDetail() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -147,7 +147,7 @@ class _MyAppState extends State<MyApp> {
                 IconButton(
                   icon: Icon(Icons.add_box),
                   onPressed:
-                      navigateToDetail, // Call function addItemToList to Add item to list
+                      _addItemToList, // Call function addItemToList to Add item to list
                 ),
               ],
             ),
@@ -174,6 +174,7 @@ class _MyAppState extends State<MyApp> {
                   DateInfo(selectedDate: selectedDate), // Date info widget
                   ListItem(
                       // List item widget
+                      navigateToDetail: _navigateToDetail,
                       showcontent: _showcontent,
                       listViewItem: listViewItem,
                       selectedDate: selectedDate,
