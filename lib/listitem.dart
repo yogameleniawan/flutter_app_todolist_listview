@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'detail.dart';
+
 class ListItem extends StatelessWidget {
   const ListItem({
     Key key,
@@ -25,13 +27,24 @@ class ListItem extends StatelessWidget {
           var idx = listViewItem.indexOf(
               value); // get index value, the index value can passing to remove item list parameter
           // to get specific index
+          var _valueData = value;
           return GestureDetector(
             child: Card(
                 margin: EdgeInsets.only(top: 10),
                 child: Padding(
                   padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
                   child: InkWell(
-                    onTap: navigateToDetail,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailList(
+                            valueData: _valueData,
+                            // valueData: _value,
+                          ),
+                        ),
+                      );
+                    },
                     child: Row(
                       children: <Widget>[
                         Expanded(

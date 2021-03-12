@@ -4,9 +4,9 @@ import 'main.dart';
 
 class DetailList extends StatefulWidget {
   final Function addItemToList;
-  final String valueDetail;
+  final String valueData;
 
-  DetailList({Key key, this.addItemToList, this.valueDetail}) : super(key: key);
+  DetailList({Key key, this.addItemToList, this.valueData}) : super(key: key);
   static const String routeName = "/DetailList";
 
   @override
@@ -23,7 +23,7 @@ class _DetailListState extends State<DetailList> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("teess"),
+        title: new Text(widget.valueData ?? ''),
       ),
       body: new Container(
         margin: EdgeInsets.only(top: 10, right: 10, left: 10),

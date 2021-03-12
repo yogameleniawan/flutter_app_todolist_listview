@@ -117,6 +117,7 @@ class _MyAppState extends State<MyApp> {
       MaterialPageRoute(
         builder: (_) => DetailList(
           addItemToList: _addItemToList,
+          // valueData: _value,
         ),
       ),
     );
@@ -164,13 +165,11 @@ class _MyAppState extends State<MyApp> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
-                  Container(child: Text('${widget.namadetail}')),
                   DropDown(
                       // Dropdown widget
                       listItem: listItem,
                       newValue: _newValue,
                       dropdownOnChanged: _dropdownOnChanged),
-                  RaisedButton(onPressed: _addItemToList),
                   DateInfo(selectedDate: selectedDate), // Date info widget
                   ListItem(
                       // List item widget
