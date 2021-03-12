@@ -30,8 +30,11 @@ class App extends StatelessWidget {
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
+  final String namadetail;
+
+  MyApp({Key key, this.namadetail}) : super(key: key);
   static const String routeName = "/MyApp";
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -44,16 +47,17 @@ class _MyAppState extends State<MyApp> {
   var listItem = ["High", "Low"];
   String _newValue = "High";
   List<String> listViewItem = [];
+  String tulis = "";
 
-  void addItemToList() {
+  void _addItemToList() {
     setState(() {
       value = etInput.text;
       if (_newValue == "High") {
         // insert into index 0 which is item get top position of the list
-        listViewItem.insert(0, value);
+        listViewItem.insert(0, widget.namadetail);
       } else if (_newValue == "Low") {
         // insert into index n which is item get bottom position of the list
-        listViewItem.add(value);
+        listViewItem.add(widget.namadetail);
       } // put etInput text and assign to string value
       // input value to list item with iteration index 0 - n
       etInput.clear(); // clear value in input from when click button
@@ -108,7 +112,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   void navigateToDetail() {
-    Navigator.pushNamed(context, DetailList.routeName); //push to routes
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => DetailList(
+          addItemToList: _addItemToList,
+        ),
+      ),
+    );
+    // Navigator.pushNamed(context, DetailList.routeName); //push to routes
   }
 
   @override
@@ -135,7 +147,7 @@ class _MyAppState extends State<MyApp> {
                 IconButton(
                   icon: Icon(Icons.add_box),
                   onPressed:
-                      addItemToList, // Call function addItemToList to Add item to list
+                      navigateToDetail, // Call function addItemToList to Add item to list
                 ),
               ],
             ),
@@ -148,15 +160,17 @@ class _MyAppState extends State<MyApp> {
                     // Activity Priority Text
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
-                      "Activity Priority",
+                      "Activity Today",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
+                  Container(child: Text('${widget.namadetail}')),
                   DropDown(
                       // Dropdown widget
                       listItem: listItem,
                       newValue: _newValue,
                       dropdownOnChanged: _dropdownOnChanged),
+                  RaisedButton(onPressed: _addItemToList),
                   DateInfo(selectedDate: selectedDate), // Date info widget
                   ListItem(
                       // List item widget
