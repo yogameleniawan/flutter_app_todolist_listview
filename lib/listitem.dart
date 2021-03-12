@@ -40,7 +40,7 @@ class ListItem extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (_) => DetailList(
                             valueData: _valueData,
-                            // valueData: _value,
+                            idxData: idx,
                           ),
                         ),
                       );

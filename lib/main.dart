@@ -30,9 +30,7 @@ class App extends StatelessWidget {
 }
 
 class MyApp extends StatefulWidget {
-  final String namadetail;
-
-  MyApp({Key key, this.namadetail}) : super(key: key);
+  MyApp({Key key}) : super(key: key);
   static const String routeName = "/MyApp";
 
   @override

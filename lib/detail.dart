@@ -5,8 +5,10 @@ import 'main.dart';
 class DetailList extends StatefulWidget {
   final Function addItemToList;
   final String valueData;
+  final int idxData;
 
-  DetailList({Key key, this.addItemToList, this.valueData}) : super(key: key);
+  DetailList({Key key, this.addItemToList, this.valueData, this.idxData})
+      : super(key: key);
   static const String routeName = "/DetailList";
 
   @override
@@ -16,6 +18,16 @@ class DetailList extends StatefulWidget {
 class _DetailListState extends State<DetailList> {
   TextEditingController etInput = new TextEditingController();
   String nama = "";
+  List<String> detailValue = [];
+  var resultValue = "";
+
+  void _addToList(int idx) {
+    String value = etInput.text;
+    detailValue.insert(idx, value);
+    var detailMap = detailValue.asMap();
+    resultValue = detailMap[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     var button = new IconButton(
@@ -42,6 +54,7 @@ class _DetailListState extends State<DetailList> {
                 ),
               ),
             ),
+            Container(child: Text(resultValue)),
             // Container(
             //   child: Text(widget.valueDetail ?? ''),
             // ),
@@ -49,15 +62,7 @@ class _DetailListState extends State<DetailList> {
                 //button 1
                 onPressed: () {
                   nama = etInput.text;
-                  widget.addItemToList;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => MyApp(
-                        namadetail: nama,
-                      ),
-                    ),
-                  );
+                  _addToList(widget.idxData);
                 },
                 child: Text('Add')),
           ],
