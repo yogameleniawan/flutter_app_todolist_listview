@@ -29,21 +29,48 @@ class App extends StatelessWidget {
   }
 }
 
+class Item {
+  List<String> item;
+  String nama;
+
+  void setNama() {
+    nama = "gasgasga";
+  }
+
+  String getNama() {
+    return this.nama;
+  }
+
+  void setList(List<String> item) {
+    this.item = item;
+  }
+
+  List<String> getList() {
+    return this.item;
+  }
+}
+
 class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
+  List<String> listData = [];
+  MyApp({Key key, this.listData}) : super(key: key);
   static const String routeName = "/MyApp";
 
   @override
-  _MyAppState createState() => _MyAppState();
+  MyAppState createState() => MyAppState(itemList: listData);
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   TextEditingController etInput = new TextEditingController();
   DateTime selectedDate = DateTime.now(); // get date time now
+
+  MyAppState({Key key, this.itemList});
+  Item item = Item();
+  List<String> itemList = [];
 
   String value = "";
   var listItem = ["High", "Low"];
   String _newValue = "High";
+
   List<String> listViewItem = [];
   String tulis = "";
 
@@ -109,16 +136,24 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _navigateToDetail() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => DetailList(
-          addItemToList: _addItemToList,
-          // valueData: _value,
-        ),
+  void navigateToDetail() {
+    // DetailList(listData: item.getList(), tes: "sagasgasg");
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => DetailList(
+    //       listData: item.getList(),
+    //       tes: "sagasgasg",
+    //     ),
+    //   ),
+    // );
+    var route = new MaterialPageRoute(
+      builder: (BuildContext context) => new DetailList(
+        listData: itemList,
+        tes: "sagasgasg",
       ),
     );
+    Navigator.of(context).push(route);
+
     // Navigator.pushNamed(context, DetailList.routeName); //push to routes
   }
 
@@ -146,7 +181,7 @@ class _MyAppState extends State<MyApp> {
                 IconButton(
                   icon: Icon(Icons.add_box),
                   onPressed:
-                      _addItemToList, // Call function addItemToList to Add item to list
+                      navigateToDetail, // Call function addItemToList to Add item to list
                 ),
               ],
             ),
@@ -171,9 +206,8 @@ class _MyAppState extends State<MyApp> {
                   DateInfo(selectedDate: selectedDate), // Date info widget
                   ListItem(
                       // List item widget
-                      navigateToDetail: _navigateToDetail,
                       showcontent: _showcontent,
-                      listViewItem: listViewItem,
+                      listViewItem: itemList,
                       selectedDate: selectedDate,
                       removeItemToList: _removeItemToList),
                 ],
@@ -181,5 +215,65 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ));
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => new _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var _textController = new TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Home Page"),
+      ),
+      body: new ListView(
+        children: <Widget>[
+          new ListTile(
+            title: new TextField(
+              controller: _textController,
+            ),
+          ),
+          new ListTile(
+            title: new RaisedButton(
+              child: new Text("Next"),
+              onPressed: () {
+                var route = new MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      new NextPage(value: "ggggggg"),
+                );
+                Navigator.of(context).push(route);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NextPage extends StatefulWidget {
+  final String value;
+
+  NextPage({Key key, this.value}) : super(key: key);
+
+  @override
+  _NextPageState createState() => new _NextPageState();
+}
+
+class _NextPageState extends State<NextPage> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Next Page"),
+      ),
+      body: new Text("${widget.value}"),
+    );
   }
 }

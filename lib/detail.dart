@@ -3,30 +3,24 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 
 class DetailList extends StatefulWidget {
-  final Function addItemToList;
-  final String valueData;
-  final int idxData;
-
-  DetailList({Key key, this.addItemToList, this.valueData, this.idxData})
-      : super(key: key);
+  List<String> listData = [];
+  String tes = "";
+  DetailList({Key key, this.listData, this.tes}) : super(key: key);
   static const String routeName = "/DetailList";
 
   @override
-  _DetailListState createState() => _DetailListState();
+  _DetailListState createState() => _DetailListState(listDataItem: listData);
 }
 
 class _DetailListState extends State<DetailList> {
+  _DetailListState({Key key, this.listDataItem});
+
   TextEditingController etInput = new TextEditingController();
   String nama = "";
-  List<String> detailValue = [];
-  var resultValue = "";
+  Item item = Item();
 
-  void _addToList(int idx) {
-    String value = etInput.text;
-    detailValue.insert(idx, value);
-    var detailMap = detailValue.asMap();
-    resultValue = detailMap[0];
-  }
+  List<String> listDataItem = [];
+  List<String> list = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +29,7 @@ class _DetailListState extends State<DetailList> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(widget.valueData ?? ''),
+        title: new Text("teess"),
       ),
       body: new Container(
         margin: EdgeInsets.only(top: 10, right: 10, left: 10),
@@ -54,15 +48,27 @@ class _DetailListState extends State<DetailList> {
                 ),
               ),
             ),
-            Container(child: Text(resultValue)),
-            // Container(
-            //   child: Text(widget.valueDetail ?? ''),
-            // ),
             RaisedButton(
                 //button 1
                 onPressed: () {
                   nama = etInput.text;
-                  _addToList(widget.idxData);
+                  item.getList();
+                  list.add(nama);
+                  item.setList(list);
+
+                  if ((listDataItem != null) && (listDataItem.length > 0)) {
+                    listDataItem.add(nama);
+                    item.setList(listDataItem);
+                  }
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MyApp(
+                        listData: item.getList(),
+                      ),
+                    ),
+                  );
                 },
                 child: Text('Add')),
           ],
