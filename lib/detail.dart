@@ -42,7 +42,6 @@ class _DetailListState extends State<DetailList> {
             ),
             RaisedButton(
                 //button 1
-                color: Colors.pink,
                 onPressed: () {
                   nama = etInput.text;
                   widget.addItemToList;
@@ -55,7 +54,7 @@ class _DetailListState extends State<DetailList> {
                     ),
                   );
                 },
-                child: Text('Pink')),
+                child: Text('Add')),
           ],
         ),
       ),
