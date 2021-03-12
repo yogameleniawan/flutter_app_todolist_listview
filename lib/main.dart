@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'dateinfo.dart';
 import 'detail.dart';
 import 'dropdown.dart';
+import 'info.dart';
 import 'input.dart';
 import 'listitem.dart';
 
@@ -31,15 +32,6 @@ class App extends StatelessWidget {
 
 class Item {
   List<String> item;
-  String nama;
-
-  void setNama() {
-    nama = "gasgasga";
-  }
-
-  String getNama() {
-    return this.nama;
-  }
 
   void setList(List<String> item) {
     this.item = item;
@@ -63,31 +55,13 @@ class MyAppState extends State<MyApp> {
   TextEditingController etInput = new TextEditingController();
   DateTime selectedDate = DateTime.now(); // get date time now
 
-  MyAppState({Key key, this.itemList});
+  MyAppState({Key key, this.itemList}); // retreive list from parameter
   Item item = Item();
   List<String> itemList = [];
 
   String value = "";
   var listItem = ["High", "Low"];
   String _newValue = "High";
-
-  List<String> listViewItem = [];
-  String tulis = "";
-
-  void _addItemToList() {
-    setState(() {
-      value = etInput.text;
-      if (_newValue == "High") {
-        // insert into index 0 which is item get top position of the list
-        listViewItem.insert(0, value);
-      } else if (_newValue == "Low") {
-        // insert into index n which is item get bottom position of the list
-        listViewItem.add(value);
-      } // put etInput text and assign to string value
-      // input value to list item with iteration index 0 - n
-      etInput.clear(); // clear value in input from when click button
-    });
-  }
 
   void _showcontent(int index) {
     showDialog(
@@ -131,29 +105,28 @@ class MyAppState extends State<MyApp> {
 
   void _removeItemToList(int idx) {
     setState(() {
-      listViewItem.removeAt(
+      itemList.removeAt(
           idx); // remove item from list with passing index value to parameter
     });
   }
 
-  void navigateToDetail() {
-    // DetailList(listData: item.getList(), tes: "sagasgasg");
-    // Navigator.of(context).push(
-    //   MaterialPageRoute(
-    //     builder: (context) => DetailList(
-    //       listData: item.getList(),
-    //       tes: "sagasgasg",
-    //     ),
-    //   ),
-    // );
+  void _navigateToAdd() {
     var route = new MaterialPageRoute(
       builder: (BuildContext context) => new DetailList(
         listData: itemList,
-        tes: "sagasgasg",
       ),
     );
     Navigator.of(context).push(route);
+    // Navigator.pushNamed(context, DetailList.routeName); //push to routes
+  }
 
+  void _navigateToDetail() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => Info(),
+      ),
+    );
     // Navigator.pushNamed(context, DetailList.routeName); //push to routes
   }
 
@@ -181,7 +154,7 @@ class MyAppState extends State<MyApp> {
                 IconButton(
                   icon: Icon(Icons.add_box),
                   onPressed:
-                      navigateToDetail, // Call function addItemToList to Add item to list
+                      _navigateToAdd, // Call function addItemToList to Add item to list
                 ),
               ],
             ),
@@ -189,23 +162,10 @@ class MyAppState extends State<MyApp> {
               margin: EdgeInsets.only(left: 10, right: 10),
               child: Column(
                 children: <Widget>[
-                  Input(etInput: etInput), // Input widget
-                  Container(
-                    // Activity Priority Text
-                    margin: EdgeInsets.only(top: 10),
-                    child: Text(
-                      "Activity Today",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ),
-                  DropDown(
-                      // Dropdown widget
-                      listItem: listItem,
-                      newValue: _newValue,
-                      dropdownOnChanged: _dropdownOnChanged),
                   DateInfo(selectedDate: selectedDate), // Date info widget
                   ListItem(
                       // List item widget
+                      navigateToDetail: _navigateToDetail,
                       showcontent: _showcontent,
                       listViewItem: itemList,
                       selectedDate: selectedDate,
@@ -215,65 +175,5 @@ class MyAppState extends State<MyApp> {
             ),
           ),
         ));
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => new _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  var _textController = new TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Home Page"),
-      ),
-      body: new ListView(
-        children: <Widget>[
-          new ListTile(
-            title: new TextField(
-              controller: _textController,
-            ),
-          ),
-          new ListTile(
-            title: new RaisedButton(
-              child: new Text("Next"),
-              onPressed: () {
-                var route = new MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      new NextPage(value: "ggggggg"),
-                );
-                Navigator.of(context).push(route);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class NextPage extends StatefulWidget {
-  final String value;
-
-  NextPage({Key key, this.value}) : super(key: key);
-
-  @override
-  _NextPageState createState() => new _NextPageState();
-}
-
-class _NextPageState extends State<NextPage> {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Next Page"),
-      ),
-      body: new Text("${widget.value}"),
-    );
   }
 }

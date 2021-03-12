@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'dropdown.dart';
 import 'main.dart';
 
 class DetailList extends StatefulWidget {
   List<String> listData = [];
-  String tes = "";
-  DetailList({Key key, this.listData, this.tes}) : super(key: key);
+
+  DetailList({Key key, this.listData}) : super(key: key);
   static const String routeName = "/DetailList";
 
   @override
@@ -16,11 +17,19 @@ class _DetailListState extends State<DetailList> {
   _DetailListState({Key key, this.listDataItem});
 
   TextEditingController etInput = new TextEditingController();
-  String nama = "";
   Item item = Item();
+  String _value = "";
 
   List<String> listDataItem = [];
   List<String> list = [];
+  var listItem = ["High", "Low"];
+  String _newValue = "High";
+
+  void _dropdownOnChanged(String changeValue) {
+    setState(() {
+      _newValue = changeValue;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +38,7 @@ class _DetailListState extends State<DetailList> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("teess"),
+        title: new Text("Add Activity"),
       ),
       body: new Container(
         margin: EdgeInsets.only(top: 10, right: 10, left: 10),
@@ -48,29 +57,48 @@ class _DetailListState extends State<DetailList> {
                 ),
               ),
             ),
-            RaisedButton(
-                //button 1
-                onPressed: () {
-                  nama = etInput.text;
-                  item.getList();
-                  list.add(nama);
-                  item.setList(list);
+            DropDown(
+                // Dropdown widget
+                listItem: listItem,
+                newValue: _newValue,
+                dropdownOnChanged: _dropdownOnChanged),
+            Container(
+              width: double.infinity,
+              child: RaisedButton(
+                  //button 1
+                  onPressed: () {
+                    _value = etInput.text;
+                    item.getList();
 
-                  if ((listDataItem != null) && (listDataItem.length > 0)) {
-                    listDataItem.add(nama);
-                    item.setList(listDataItem);
-                  }
+                    if (_newValue == "High") {
+                      list.insert(0, _value);
+                      item.setList(list);
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => MyApp(
-                        listData: item.getList(),
+                      if ((listDataItem != null) && (listDataItem.length > 0)) {
+                        listDataItem.insert(0, _value);
+                        item.setList(listDataItem);
+                      }
+                    } else if (_newValue == "Low") {
+                      list.add(_value);
+                      item.setList(list);
+
+                      if ((listDataItem != null) && (listDataItem.length > 0)) {
+                        listDataItem.add(_value);
+                        item.setList(listDataItem);
+                      }
+                    }
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MyApp(
+                          listData: item.getList(),
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: Text('Add')),
+                    );
+                  },
+                  child: Text('Add')),
+            ),
           ],
         ),
       ),
