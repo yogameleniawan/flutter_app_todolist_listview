@@ -32,18 +32,42 @@ class _InfoState extends State<Info> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(widget.valueDetail ?? ''),
+        title: new Text("Detail Activity"),
       ),
-      body: new Container(
-        margin: EdgeInsets.only(top: 10, right: 10, left: 10),
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(child: Text(widget.valueDetail)),
-            Container(child: Text(listDetail[widget.index])),
-          ],
-        ),
-      ),
+      body: Card(
+          margin: EdgeInsets.only(top: 10),
+          child: Padding(
+            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+            child: InkWell(
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                      child: Column(
+                    crossAxisAlignment: CrossAxisAlignment
+                        .stretch, // to position column text into left and right side
+                    children: <Widget>[
+                      Text(
+                        widget.valueDetail,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      Text(
+                        listDetail[widget.index],
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ],
+                  )),
+                ],
+              ),
+            ),
+          )),
     );
   }
 
