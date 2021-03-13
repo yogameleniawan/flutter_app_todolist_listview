@@ -5,17 +5,26 @@ import 'main.dart';
 class Info extends StatefulWidget {
   final Function addItemToList;
   final String valueDetail;
+  final int index;
+  List<String> detailList = [];
 
-  Info({Key key, this.addItemToList, this.valueDetail}) : super(key: key);
+  Info(
+      {Key key,
+      this.addItemToList,
+      this.valueDetail,
+      this.index,
+      this.detailList})
+      : super(key: key);
   static const String routeName = "/DetailList";
 
   @override
-  _InfoState createState() => _InfoState();
+  _InfoState createState() => _InfoState(listDetail: detailList);
 }
 
 class _InfoState extends State<Info> {
-  TextEditingController etInput = new TextEditingController();
-  String nama = "";
+  _InfoState({Key key, this.listDetail});
+  List<String> listDetail = [];
+
   @override
   Widget build(BuildContext context) {
     var button = new IconButton(
@@ -30,34 +39,8 @@ class _InfoState extends State<Info> {
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              child: TextFormField(
-                controller: etInput,
-                decoration: InputDecoration(
-                  labelText: "Your Activity Today",
-                  hintText: "Insert your activity today",
-                  border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.all(new Radius.circular(10.0))),
-                ),
-              ),
-            ),
-            // Container(
-            //   child: Text(widget.valueDetail ?? ''),
-            // ),
-            RaisedButton(
-                //button 1
-                onPressed: () {
-                  nama = etInput.text;
-                  widget.addItemToList;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => MyApp(),
-                    ),
-                  );
-                },
-                child: Text('Add')),
+            Container(child: Text(widget.valueDetail)),
+            Container(child: Text(listDetail[widget.index])),
           ],
         ),
       ),

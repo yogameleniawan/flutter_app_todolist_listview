@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'dateinfo.dart';
-import 'detail.dart';
-import 'dropdown.dart';
+import 'additem.dart';
 import 'info.dart';
-import 'input.dart';
 import 'listitem.dart';
 
 void main() {
@@ -16,7 +14,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var routes = <String, WidgetBuilder>{
-      DetailList.routeName: (BuildContext context) => new DetailList(),
+      AddItem.routeName: (BuildContext context) => new AddItem(),
       MyApp.routeName: (BuildContext context) => new MyApp(),
     }; // Declaration route
     return new MaterialApp(
@@ -32,32 +30,46 @@ class App extends StatelessWidget {
 
 class Item {
   List<String> item;
+  List<String> detail;
 
   void setList(List<String> item) {
     this.item = item;
   }
 
+  void setDetail(List<String> detail) {
+    this.detail = detail;
+  }
+
   List<String> getList() {
     return this.item;
+  }
+
+  List<String> getDetail() {
+    return this.detail;
   }
 }
 
 class MyApp extends StatefulWidget {
   List<String> listData = [];
-  MyApp({Key key, this.listData}) : super(key: key);
+  List<String> listDetail = [];
+  MyApp({Key key, this.listData, this.listDetail}) : super(key: key);
   static const String routeName = "/MyApp";
 
   @override
-  MyAppState createState() => MyAppState(itemList: listData);
+  MyAppState createState() =>
+      MyAppState(itemList: listData, itemDetail: listDetail);
 }
 
 class MyAppState extends State<MyApp> {
   TextEditingController etInput = new TextEditingController();
   DateTime selectedDate = DateTime.now(); // get date time now
 
-  MyAppState({Key key, this.itemList}); // retreive list from parameter
-  Item item = Item();
+  MyAppState(
+      {Key key,
+      this.itemList,
+      this.itemDetail}); // retreive list from parameter
   List<String> itemList = [];
+  List<String> itemDetail = [];
 
   String value = "";
   var listItem = ["High", "Low"];
@@ -107,13 +119,15 @@ class MyAppState extends State<MyApp> {
     setState(() {
       itemList.removeAt(
           idx); // remove item from list with passing index value to parameter
+      itemDetail.removeAt(idx);
     });
   }
 
   void _navigateToAdd() {
     var route = new MaterialPageRoute(
-      builder: (BuildContext context) => new DetailList(
+      builder: (BuildContext context) => new AddItem(
         listData: itemList,
+        listDetail: itemDetail,
       ),
     );
     Navigator.of(context).push(route);
@@ -168,6 +182,7 @@ class MyAppState extends State<MyApp> {
                       navigateToDetail: _navigateToDetail,
                       showcontent: _showcontent,
                       listViewItem: itemList,
+                      listDetail: itemDetail,
                       selectedDate: selectedDate,
                       removeItemToList: _removeItemToList),
                 ],

@@ -3,25 +3,31 @@ import 'package:flutter/material.dart';
 import 'dropdown.dart';
 import 'main.dart';
 
-class DetailList extends StatefulWidget {
+class AddItem extends StatefulWidget {
   List<String> listData = [];
+  List<String> listDetail = [];
 
-  DetailList({Key key, this.listData}) : super(key: key);
+  AddItem({Key key, this.listData, this.listDetail}) : super(key: key);
   static const String routeName = "/DetailList";
 
   @override
-  _DetailListState createState() => _DetailListState(listDataItem: listData);
+  _AddItemState createState() =>
+      _AddItemState(listDataItem: listData, itemDetail: listDetail);
 }
 
-class _DetailListState extends State<DetailList> {
-  _DetailListState({Key key, this.listDataItem});
+class _AddItemState extends State<AddItem> {
+  _AddItemState({Key key, this.listDataItem, this.itemDetail});
 
   TextEditingController etInput = new TextEditingController();
+  TextEditingController detailInput = new TextEditingController();
   Item item = Item();
   String _value = "";
+  String _detail = "";
 
   List<String> listDataItem = [];
+  List<String> itemDetail = [];
   List<String> list = [];
+  List<String> listDetail = [];
   var listItem = ["High", "Low"];
   String _newValue = "High";
 
@@ -57,6 +63,23 @@ class _DetailListState extends State<DetailList> {
                 ),
               ),
             ),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: TextFormField(
+                controller: detailInput,
+                decoration: InputDecoration(
+                  labelText: "Detail Activity",
+                  hintText: "Insert your detail activity",
+                  border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(new Radius.circular(10.0))),
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: Text("Activity Priority"),
+            ),
             DropDown(
                 // Dropdown widget
                 listItem: listItem,
@@ -65,26 +88,36 @@ class _DetailListState extends State<DetailList> {
             Container(
               width: double.infinity,
               child: RaisedButton(
+                  color: Colors.blueAccent,
+                  textColor: Colors.white,
                   //button 1
                   onPressed: () {
                     _value = etInput.text;
-                    item.getList();
+                    _detail = detailInput.text;
 
                     if (_newValue == "High") {
                       list.insert(0, _value);
+                      listDetail.insert(0, _detail);
                       item.setList(list);
+                      item.setDetail(listDetail);
 
                       if ((listDataItem != null) && (listDataItem.length > 0)) {
                         listDataItem.insert(0, _value);
+                        itemDetail.insert(0, _detail);
                         item.setList(listDataItem);
+                        item.setDetail(itemDetail);
                       }
                     } else if (_newValue == "Low") {
                       list.add(_value);
+                      listDetail.add(_detail);
                       item.setList(list);
+                      item.setDetail(listDetail);
 
                       if ((listDataItem != null) && (listDataItem.length > 0)) {
                         listDataItem.add(_value);
+                        itemDetail.add(_detail);
                         item.setList(listDataItem);
+                        item.setDetail(itemDetail);
                       }
                     }
 
@@ -93,6 +126,7 @@ class _DetailListState extends State<DetailList> {
                       MaterialPageRoute(
                         builder: (_) => MyApp(
                           listData: item.getList(),
+                          listDetail: item.getDetail(),
                         ),
                       ),
                     );

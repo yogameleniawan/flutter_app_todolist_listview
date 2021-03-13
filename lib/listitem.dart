@@ -7,6 +7,7 @@ class ListItem extends StatelessWidget {
   const ListItem({
     Key key,
     @required this.listViewItem,
+    @required this.listDetail,
     @required this.navigateToDetail,
     @required this.showcontent,
     @required this.selectedDate,
@@ -14,6 +15,7 @@ class ListItem extends StatelessWidget {
   }) : super(key: key);
 
   final List<String> listViewItem;
+  final List<String> listDetail;
   final DateTime selectedDate;
   final Function removeItemToList;
   final Function navigateToDetail;
@@ -27,7 +29,7 @@ class ListItem extends StatelessWidget {
               var idx = listViewItem.indexOf(
                   value); // get index value, the index value can passing to remove item list parameter
               // to get specific index
-              var _valueData = value;
+              var _valueData = value; // get value list
               return GestureDetector(
                 child: Card(
                     margin: EdgeInsets.only(top: 10),
@@ -40,6 +42,8 @@ class ListItem extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (_) => Info(
                                 valueDetail: _valueData,
+                                detailList: listDetail,
+                                index: idx,
                                 // valueData: _value,
                               ),
                             ),
@@ -77,7 +81,7 @@ class ListItem extends StatelessWidget {
                               icon: Icon(Icons.check_box),
                               onPressed: () {
                                 showcontent(
-                                    idx); // call showAlertDialog and passing 2 parameter context and idx
+                                    idx); // call showAlertDialog and passing idx
                                 // idx is value of the index of the list when the button on pressed,
                                 // if button press on first list, so the value idx is [0]
                                 // if button press on second list, so the value idx is [1]
