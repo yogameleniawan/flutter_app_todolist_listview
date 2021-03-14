@@ -18,10 +18,6 @@ class DropDown extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: 10),
       padding: EdgeInsets.only(left: 10, right: 10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        // to custom border radius
-      ),
       child: DropdownButton<String>(
         items: listItem.map((String value) {
           return DropdownMenuItem<String>(

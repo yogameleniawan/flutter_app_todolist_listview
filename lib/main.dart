@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'dateinfo.dart';
-import 'detail.dart';
-import 'dropdown.dart';
-import 'input.dart';
+import 'additem.dart';
+import 'info.dart';
 import 'listitem.dart';
 
 void main() {
@@ -15,7 +14,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var routes = <String, WidgetBuilder>{
-      DetailList.routeName: (BuildContext context) => new DetailList(),
+      AddItem.routeName: (BuildContext context) => new AddItem(),
       MyApp.routeName: (BuildContext context) => new MyApp(),
     }; // Declaration route
     return new MaterialApp(
@@ -29,36 +28,52 @@ class App extends StatelessWidget {
   }
 }
 
-class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
-  static const String routeName = "/MyApp";
-  @override
-  _MyAppState createState() => _MyAppState();
+class Item {
+  List<String> item;
+  List<String> detail;
+
+  void setList(List<String> item) {
+    this.item = item;
+  }
+
+  void setDetail(List<String> detail) {
+    this.detail = detail;
+  }
+
+  List<String> getList() {
+    return this.item;
+  }
+
+  List<String> getDetail() {
+    return this.detail;
+  }
 }
 
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatefulWidget {
+  List<String> listTitle = [];
+  List<String> listDetail = [];
+  MyApp({Key key, this.listTitle, this.listDetail}) : super(key: key);
+  static const String routeName = "/MyApp";
+
+  @override
+  MyAppState createState() =>
+      MyAppState(listTitle: listTitle, itemDetail: listDetail);
+}
+
+class MyAppState extends State<MyApp> {
   TextEditingController etInput = new TextEditingController();
   DateTime selectedDate = DateTime.now(); // get date time now
+
+  MyAppState(
+      {Key key,
+      this.listTitle,
+      this.itemDetail}); // retreive list from parameter
+  List<String> listTitle = [];
+  List<String> itemDetail = [];
 
   String value = "";
   var listItem = ["High", "Low"];
   String _newValue = "High";
-  List<String> listViewItem = [];
-
-  void addItemToList() {
-    setState(() {
-      value = etInput.text;
-      if (_newValue == "High") {
-        // insert into index 0 which is item get top position of the list
-        listViewItem.insert(0, value);
-      } else if (_newValue == "Low") {
-        // insert into index n which is item get bottom position of the list
-        listViewItem.add(value);
-      } // put etInput text and assign to string value
-      // input value to list item with iteration index 0 - n
-      etInput.clear(); // clear value in input from when click button
-    });
-  }
 
   void _showcontent(int index) {
     showDialog(
@@ -102,13 +117,31 @@ class _MyAppState extends State<MyApp> {
 
   void _removeItemToList(int idx) {
     setState(() {
-      listViewItem.removeAt(
+      listTitle.removeAt(
           idx); // remove item from list with passing index value to parameter
+      itemDetail.removeAt(idx);
     });
   }
 
-  void navigateToDetail() {
-    Navigator.pushNamed(context, DetailList.routeName); //push to routes
+  void _navigateToAdd() {
+    var route = new MaterialPageRoute(
+      builder: (BuildContext context) => new AddItem(
+        listTitle: listTitle,
+        listDetail: itemDetail,
+      ),
+    );
+    Navigator.of(context).push(route);
+    // Navigator.pushNamed(context, DetailList.routeName); //push to routes
+  }
+
+  void _navigateToDetail() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => Info(),
+      ),
+    );
+    // Navigator.pushNamed(context, DetailList.routeName); //push to routes
   }
 
   @override
@@ -135,7 +168,7 @@ class _MyAppState extends State<MyApp> {
                 IconButton(
                   icon: Icon(Icons.add_box),
                   onPressed:
-                      addItemToList, // Call function addItemToList to Add item to list
+                      _navigateToAdd, // Call function addItemToList to Add item to list
                 ),
               ],
             ),
@@ -143,25 +176,13 @@ class _MyAppState extends State<MyApp> {
               margin: EdgeInsets.only(left: 10, right: 10),
               child: Column(
                 children: <Widget>[
-                  Input(etInput: etInput), // Input widget
-                  Container(
-                    // Activity Priority Text
-                    margin: EdgeInsets.only(top: 10),
-                    child: Text(
-                      "Activity Priority",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                  ),
-                  DropDown(
-                      // Dropdown widget
-                      listItem: listItem,
-                      newValue: _newValue,
-                      dropdownOnChanged: _dropdownOnChanged),
                   DateInfo(selectedDate: selectedDate), // Date info widget
                   ListItem(
                       // List item widget
+                      navigateToDetail: _navigateToDetail,
                       showcontent: _showcontent,
-                      listViewItem: listViewItem,
+                      listTitle: listTitle,
+                      listDetail: itemDetail,
                       selectedDate: selectedDate,
                       removeItemToList: _removeItemToList),
                 ],
