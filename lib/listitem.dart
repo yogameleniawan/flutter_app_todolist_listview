@@ -29,7 +29,7 @@ class ListItem extends StatelessWidget {
               var idx = listTitle.indexOf(
                   value); // get index value, the index value can passing to remove item list parameter
               // to get specific index
-              var _valueData = value; // get value list
+
               return GestureDetector(
                 child: Card(
                     margin: EdgeInsets.only(top: 10),
@@ -41,7 +41,6 @@ class ListItem extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (_) => Info(
-                                valueDetail: _valueData,
                                 listDetail: listDetail,
                                 listTitle: listTitle,
                                 index: idx,

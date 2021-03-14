@@ -8,7 +8,7 @@ class AddItem extends StatefulWidget {
   List<String> listDetail = [];
 
   AddItem({Key key, this.listTitle, this.listDetail}) : super(key: key);
-  static const String routeName = "/DetailList";
+  static const String routeName = "/AddList";
 
   @override
   _AddItemState createState() =>

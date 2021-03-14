@@ -3,20 +3,16 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 
 class Info extends StatefulWidget {
-  final Function addItemToList;
-  final String valueDetail;
   final int index;
   List<String> listDetail = [];
   List<String> listTitle = [];
 
-  Info(
-      {Key key,
-      this.addItemToList,
-      this.valueDetail,
-      this.index,
-      this.listDetail,
-      this.listTitle})
-      : super(key: key);
+  Info({
+    Key key,
+    this.index,
+    this.listDetail,
+    this.listTitle,
+  }) : super(key: key);
   static const String routeName = "/DetailList";
 
   @override
@@ -37,6 +33,13 @@ class _InfoState extends State<Info> {
   Item item = Item();
 
   @override
+  void initState() {
+    super.initState();
+    titleInput.text = listTitle[widget.index];
+    detailInput.text = listDetail[widget.index];
+  }
+
+  @override
   Widget build(BuildContext context) {
     var button = new IconButton(
         icon: new Icon(Icons.arrow_back), onPressed: _onButtonPressed);
@@ -54,7 +57,6 @@ class _InfoState extends State<Info> {
               child: TextFormField(
                 controller: titleInput,
                 decoration: InputDecoration(
-                  hintText: listTitle[widget.index],
                   border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.all(new Radius.circular(10.0))),
@@ -66,7 +68,6 @@ class _InfoState extends State<Info> {
               child: TextFormField(
                 controller: detailInput,
                 decoration: InputDecoration(
-                  hintText: listDetail[widget.index],
                   border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.all(new Radius.circular(10.0))),
@@ -94,14 +95,13 @@ class _InfoState extends State<Info> {
                       _value = titleInput.text;
                       _detail = detailInput.text;
                     }
-                    var index = widget.index;
 
                     tempTitle = listTitle;
                     tempDetail = listDetail;
-                    tempTitle.removeAt(index);
-                    tempTitle.insert(index, _value);
-                    tempDetail.removeAt(index);
-                    tempDetail.insert(index, _detail);
+                    tempTitle.removeAt(widget.index);
+                    tempTitle.insert(widget.index, _value);
+                    tempDetail.removeAt(widget.index);
+                    tempDetail.insert(widget.index, _detail);
                     item.setList(tempTitle);
                     item.setDetail(tempDetail);
 
