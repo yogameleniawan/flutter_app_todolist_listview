@@ -6,7 +6,7 @@ import 'info.dart';
 class ListItem extends StatelessWidget {
   const ListItem({
     Key key,
-    @required this.listViewItem,
+    @required this.listTitle,
     @required this.listDetail,
     @required this.navigateToDetail,
     @required this.showcontent,
@@ -14,7 +14,7 @@ class ListItem extends StatelessWidget {
     @required this.removeItemToList,
   }) : super(key: key);
 
-  final List<String> listViewItem;
+  final List<String> listTitle;
   final List<String> listDetail;
   final DateTime selectedDate;
   final Function removeItemToList;
@@ -25,8 +25,8 @@ class ListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView(
-        children: listViewItem?.map((String value) {
-              var idx = listViewItem.indexOf(
+        children: listTitle?.map((String value) {
+              var idx = listTitle.indexOf(
                   value); // get index value, the index value can passing to remove item list parameter
               // to get specific index
               var _valueData = value; // get value list

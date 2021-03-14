@@ -50,14 +50,14 @@ class Item {
 }
 
 class MyApp extends StatefulWidget {
-  List<String> listData = [];
+  List<String> listTitle = [];
   List<String> listDetail = [];
-  MyApp({Key key, this.listData, this.listDetail}) : super(key: key);
+  MyApp({Key key, this.listTitle, this.listDetail}) : super(key: key);
   static const String routeName = "/MyApp";
 
   @override
   MyAppState createState() =>
-      MyAppState(itemList: listData, itemDetail: listDetail);
+      MyAppState(listTitle: listTitle, itemDetail: listDetail);
 }
 
 class MyAppState extends State<MyApp> {
@@ -66,9 +66,9 @@ class MyAppState extends State<MyApp> {
 
   MyAppState(
       {Key key,
-      this.itemList,
+      this.listTitle,
       this.itemDetail}); // retreive list from parameter
-  List<String> itemList = [];
+  List<String> listTitle = [];
   List<String> itemDetail = [];
 
   String value = "";
@@ -117,7 +117,7 @@ class MyAppState extends State<MyApp> {
 
   void _removeItemToList(int idx) {
     setState(() {
-      itemList.removeAt(
+      listTitle.removeAt(
           idx); // remove item from list with passing index value to parameter
       itemDetail.removeAt(idx);
     });
@@ -126,7 +126,7 @@ class MyAppState extends State<MyApp> {
   void _navigateToAdd() {
     var route = new MaterialPageRoute(
       builder: (BuildContext context) => new AddItem(
-        listData: itemList,
+        listTitle: listTitle,
         listDetail: itemDetail,
       ),
     );
@@ -181,7 +181,7 @@ class MyAppState extends State<MyApp> {
                       // List item widget
                       navigateToDetail: _navigateToDetail,
                       showcontent: _showcontent,
-                      listViewItem: itemList,
+                      listTitle: listTitle,
                       listDetail: itemDetail,
                       selectedDate: selectedDate,
                       removeItemToList: _removeItemToList),

@@ -4,30 +4,30 @@ import 'dropdown.dart';
 import 'main.dart';
 
 class AddItem extends StatefulWidget {
-  List<String> listData = [];
+  List<String> listTitle = [];
   List<String> listDetail = [];
 
-  AddItem({Key key, this.listData, this.listDetail}) : super(key: key);
+  AddItem({Key key, this.listTitle, this.listDetail}) : super(key: key);
   static const String routeName = "/DetailList";
 
   @override
   _AddItemState createState() =>
-      _AddItemState(listDataItem: listData, itemDetail: listDetail);
+      _AddItemState(listTitle: listTitle, itemDetail: listDetail);
 }
 
 class _AddItemState extends State<AddItem> {
-  _AddItemState({Key key, this.listDataItem, this.itemDetail});
+  _AddItemState({Key key, this.listTitle, this.itemDetail});
 
-  TextEditingController etInput = new TextEditingController();
+  TextEditingController titleInput = new TextEditingController();
   TextEditingController detailInput = new TextEditingController();
   Item item = Item();
   String _value = "";
   String _detail = "";
 
-  List<String> listDataItem = [];
+  List<String> listTitle = [];
   List<String> itemDetail = [];
-  List<String> list = [];
-  List<String> listDetail = [];
+  List<String> tempTitle = [];
+  List<String> tempDetail = [];
   var listItem = ["High", "Low"];
   String _newValue = "High";
 
@@ -53,7 +53,7 @@ class _AddItemState extends State<AddItem> {
           children: <Widget>[
             Container(
               child: TextFormField(
-                controller: etInput,
+                controller: titleInput,
                 decoration: InputDecoration(
                   labelText: "Your Activity Today",
                   hintText: "Insert your activity today",
@@ -92,31 +92,31 @@ class _AddItemState extends State<AddItem> {
                   textColor: Colors.white,
                   //button 1
                   onPressed: () {
-                    _value = etInput.text;
+                    _value = titleInput.text;
                     _detail = detailInput.text;
 
                     if (_newValue == "High") {
-                      list.insert(0, _value);
-                      listDetail.insert(0, _detail);
-                      item.setList(list);
-                      item.setDetail(listDetail);
+                      tempTitle.insert(0, _value);
+                      tempDetail.insert(0, _detail);
+                      item.setList(tempTitle);
+                      item.setDetail(tempDetail);
 
-                      if ((listDataItem != null) && (listDataItem.length > 0)) {
-                        listDataItem.insert(0, _value);
+                      if ((listTitle != null) && (listTitle.length > 0)) {
+                        listTitle.insert(0, _value);
                         itemDetail.insert(0, _detail);
-                        item.setList(listDataItem);
+                        item.setList(listTitle);
                         item.setDetail(itemDetail);
                       }
                     } else if (_newValue == "Low") {
-                      list.add(_value);
-                      listDetail.add(_detail);
-                      item.setList(list);
-                      item.setDetail(listDetail);
+                      tempTitle.add(_value);
+                      tempDetail.add(_detail);
+                      item.setList(tempTitle);
+                      item.setDetail(tempDetail);
 
-                      if ((listDataItem != null) && (listDataItem.length > 0)) {
-                        listDataItem.add(_value);
+                      if ((listTitle != null) && (listTitle.length > 0)) {
+                        listTitle.add(_value);
                         itemDetail.add(_detail);
-                        item.setList(listDataItem);
+                        item.setList(listTitle);
                         item.setDetail(itemDetail);
                       }
                     }
@@ -125,7 +125,7 @@ class _AddItemState extends State<AddItem> {
                       context,
                       MaterialPageRoute(
                         builder: (_) => MyApp(
-                          listData: item.getList(),
+                          listTitle: item.getList(),
                           listDetail: item.getDetail(),
                         ),
                       ),
