@@ -24,6 +24,7 @@ class App extends StatelessWidget {
       ),
       home: new MyApp(),
       routes: routes, //initialized routes
+      debugShowCheckedModeBanner: false,
     );
   }
 }
