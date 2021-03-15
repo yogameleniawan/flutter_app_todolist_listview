@@ -6,12 +6,12 @@ import 'info.dart';
 class ListItem extends StatelessWidget {
   const ListItem({
     Key key,
-    @required this.listTitle,
-    @required this.listDetail,
-    @required this.navigateToDetail,
-    @required this.showcontent,
-    @required this.selectedDate,
-    @required this.removeItemToList,
+    this.listTitle,
+    this.listDetail,
+    this.navigateToDetail,
+    this.showcontent,
+    this.selectedDate,
+    this.removeItemToList,
   }) : super(key: key);
 
   final List<String> listTitle;
@@ -36,6 +36,9 @@ class ListItem extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
                       child: InkWell(
+                        onLongPress: () {
+                          showcontent(idx);
+                        },
                         onTap: () {
                           Navigator.push(
                             context,
